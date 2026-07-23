@@ -1,0 +1,67 @@
+============================================================
+           LAPORAN HASIL RUN MACHINE LEARNING & DATA EDA
+============================================================
+PROYEK: ANALISIS DAN PREDIKSI NILAI MAHASISWA (REGRESI LINEAR)
+MATA KULIAH: UJIAN AKHIR SEMESTER (UAS) - MINI MACHINE LEARNING
+
+------------------------------------------------------------
+IDENTITAS MAHASISWA (Silakan sesuaikan data Anda):
+Nama  : [TULIS NAMA ANDA DI SINI]
+NIM   : [TULIS NIM ANDA DI SINI]
+Kelas : [TULIS KELAS ANDA DI SINI]
+------------------------------------------------------------
+
+1. DESKRIPSI DATASET
+   - Total Sampel Data : 100 mahasiswa
+   - Kolom yang dianalisis:
+     a. Nama (Identifier mahasiswa)
+     b. Jam_Belajar (Waktu belajar per minggu dalam jam - Variabel X)
+     c. Ikut_Bimbel (Apakah mengikuti bimbingan belajar tambahan - Ya/Tidak)
+     d. Nilai_Ujian (Nilai ujian akhir siswa skala 0-100 - Variabel Y)
+
+2. STATISTIK DESKRIPTIF DATASET
+   - Rata-rata Jam Belajar Mingguan : 10.47 jam
+   - Rata-rata Nilai Ujian Akhir     : 70.94 poin
+   
+   - Perbandingan Nilai berdasarkan Bimbel:
+     * Siswa yang mengikuti Bimbel   : 75.59 poin
+     * Siswa yang TIDAK ikut Bimbel  : 67.29 poin
+     * Selisih Peningkatan Nilai     : 8.31 poin
+
+3. RUMUS DAN LOGIKA MODEL MACHINE LEARNING (REGRESI LINEAR OLS)
+   Persamaan Matematika Regresi:
+   Y = m * X + c
+   
+   Di mana:
+   - Y = Nilai Ujian Akhir (Prediksi)
+   - X = Jam Belajar
+   - m = Koefisien Kemiringan (Slope / Bobot)
+   - c = Nilai Intercept (Konstanta bias)
+   
+   Hasil Perhitungan Koefisien Model (di-fit manual menggunakan NumPy OLS):
+   - Slope (m)     : 2.050286
+   - Intercept (c) : 49.481709
+   
+   Persamaan Model Akhir:
+   Nilai_Ujian = (2.0503 * Jam_Belajar) + 49.4817
+   
+   Interpretasi:
+   - Nilai Intercept (49.4817): Jika seorang siswa belajar selama 0 jam, nilai prediksi dasarnya adalah 49.48.
+   - Slope (2.0503): Setiap penambahan 1 jam waktu belajar per minggu, nilai ujian siswa diprediksi akan meningkat sebesar 2.05 poin.
+
+4. EVALUASI KINERJA MODEL
+   - Mean Absolute Error (MAE)       : 4.4493 poin
+     (Rata-rata kesalahan mutlak prediksi model dari nilai aktual)
+   - Root Mean Squared Error (RMSE)   : 5.3356 poin
+     (Standar deviasi dari error prediksi model)
+   - R-squared (R2 Coefficient)       : 0.807534 (80.75%)
+     (Model ini mampu menerangkan 80.75% variabilitas nilai ujian akhir berdasarkan waktu belajar. Sisa 19.25% lainnya dipengaruhi oleh faktor lain di luar model).
+
+5. KESIMPULAN ANALISIS
+   a. Terdapat hubungan positif yang kuat antara waktu belajar dengan nilai ujian siswa. Semakin lama waktu belajar, semakin tinggi nilai ujian yang diperoleh.
+   b. Siswa yang mengikuti program Bimbingan Belajar (Bimbel) tambahan secara rata-rata memiliki nilai ujian yang lebih tinggi dibandingkan yang tidak mengikuti bimbel.
+   c. Model regresi linear sederhana ini cukup akurat dalam memprediksi nilai ujian siswa berdasarkan jam belajar dengan tingkat error (MAE) sebesar 4.45 poin.
+
+============================================================
+Laporan ini dibuat otomatis pada: 2026-07-23 20:43:25
+============================================================

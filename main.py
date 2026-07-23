@@ -4,10 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Import fungsi utilitas yang telah kita buat dari utils.py
 from utils import generate_student_dataset, fit_linear_regression, predict_linear_regression, evaluate_regression
 
-# Konfigurasi Path File
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATASET_DIR = os.path.join(BASE_DIR, "Dataset")
 OUTPUT_DIR = os.path.join(BASE_DIR, "output")
@@ -22,7 +20,6 @@ def main():
     print("   PROYEK UAS MINI MACHINE LEARNING - ANALISIS NILAI SISWA   ")
     print("="*60)
     
-    # 1. Pengecekan dan Pembuatan Dataset
     if not os.path.exists(DATASET_FILE):
         print("[STATUS] Dataset tidak ditemukan. Membuat dataset baru...")
         df = generate_student_dataset(DATASET_FILE)
@@ -34,11 +31,9 @@ def main():
     print(df.head(5))
     print("-"*60)
     
-    # 2. Statistik Deskriptif Dasar
     mean_jam = df["Jam_Belajar"].mean()
     mean_nilai = df["Nilai_Ujian"].mean()
-    
-    # Kelompokkan berdasarkan keikutsertaan bimbel
+   
     bimbel_group = df.groupby("Ikut_Bimbel")["Nilai_Ujian"].mean()
     
     print("[ANALISIS 1] Statistik Deskriptif:")
@@ -47,21 +42,15 @@ def main():
     print(f"- Rata-rata nilai ikut Bimbel     : {bimbel_group.get('Ya', 0):.2f}")
     print(f"- Rata-rata nilai TIDAK Bimbel    : {bimbel_group.get('Tidak', 0):.2f}")
     print("-"*60)
-    
-    # 3. Pemodelan Machine Learning (Regresi Linear Sederhana)
-    # Variabel Independen (X): Jam_Belajar
-    # Variabel Dependen (Y): Nilai_Ujian
+  
     X = df["Jam_Belajar"].values
     Y = df["Nilai_Ujian"].values
-    
-    # Melatih Model menggunakan rumus OLS Manual di utils.py
+   
     print("[MODELING] Melatih model Regresi Linear Sederhana...")
     m, c = fit_linear_regression(X, Y)
-    
-    # Melakukan Prediksi
+  
     Y_pred = predict_linear_regression(X, m, c)
-    
-    # Evaluasi Performa Model
+  
     metrics = evaluate_regression(Y, Y_pred)
     
     print(f"- Persamaan Regresi: Nilai_Ujian = ({m:.4f} * Jam_Belajar) + {c:.4f}")
@@ -69,20 +58,15 @@ def main():
     print(f"- Mean Abs. Error  : {metrics['MAE']:.4f} poin")
     print(f"- Root MSE (RMSE)  : {metrics['RMSE']:.4f} poin")
     print("-"*60)
-    
-    # 4. Membuat Visualisasi Data
+
     print("[VISUALIZATION] Membuat grafik analisis dan menyimpan...")
-    
-    # Mengatur style seaborn agar visualisasi terlihat premium & modern
+   
     sns.set_theme(style="whitegrid")
-    
-    # Palette warna yang senada dan estetis
+   
     colors = ["#3498db", "#e74c3c"]
-    
-    # Pastikan direktori output sudah ada
+
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    
-    # --- PLOT 1: Scatter Plot & Regression Line ---
+   
     plt.figure(figsize=(8, 6))
     sns.scatterplot(
         data=df, 
@@ -93,9 +77,7 @@ def main():
         alpha=0.8, 
         s=80
     )
-    
-    # Membuat garis regresi berdasarkan nilai prediksi model
-    # Urutkan X agar garis ditarik dari kiri ke kanan dengan mulus
+
     sort_idx = np.argsort(X)
     plt.plot(
         X[sort_idx], 
@@ -112,15 +94,13 @@ def main():
     plt.legend(title="Ikut Bimbel", frameon=True, facecolor="white", edgecolor="none")
     plt.ylim(0, 110)
     plt.tight_layout()
-    
-    # Simpan plot 1 ke file gambar
+
     plt.savefig(OUTPUT_IMG_HUBUNGAN, dpi=300)
     plt.close()
     print(f"[INFO] Grafik Hubungan Belajar berhasil disimpan ke: {OUTPUT_IMG_HUBUNGAN}")
-    
-    # --- PLOT 2: Bar Chart Rata-rata Nilai berdasarkan Bimbel ---
+  
     plt.figure(figsize=(8, 6))
-    # Buat dataframe ringkasan untuk mempermudah plotting
+ 
     bimbel_summary = df.groupby("Ikut_Bimbel")["Nilai_Ujian"].mean().reset_index()
     
     ax = sns.barplot(
@@ -132,8 +112,7 @@ def main():
         dodge=False,
         legend=False
     )
-    
-    # Menambahkan anotasi nilai angka di atas masing-masing bar
+   
     for p in ax.patches:
         height = p.get_height()
         ax.annotate(
@@ -152,14 +131,12 @@ def main():
     plt.ylabel("Rata-rata Nilai Ujian", fontsize=12)
     plt.ylim(0, 110)
     plt.tight_layout()
-    
-    # Simpan plot 2 ke file gambar
+  
     plt.savefig(OUTPUT_IMG_BIMBEL, dpi=300)
     plt.close()
     print(f"[INFO] Grafik Rata-rata Bimbel berhasil disimpan ke: {OUTPUT_IMG_BIMBEL}")
     print("-"*60)
-    
-    # 5. Ekspor Laporan Tertulis ke hasil_analisis.txt
+
     print("[EXPORT] Menyimpan hasil analisis tertulis...")
     
     laporan_content = f"""============================================================
